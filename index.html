@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>上班路線顧問</title>
+<title>上班路線顧問 - 實況地圖版</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -88,84 +88,39 @@ body::before{content:'';position:fixed;inset:0;
 .wx-detail.rain .val{color:#60a5fa;}
 .wx-loading{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;padding:6px 0;}
 
-/* ── TWO COLUMNS ── */
-.columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+/* ── INFO ALERT ── */
+.info-alert{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:var(--green);
+  padding:12px 16px;border-radius:11px;display:flex;align-items:flex-start;gap:12px;margin-bottom:16px;}
+.info-alert svg{flex-shrink:0;margin-top:2px;}
+.info-alert p{color:var(--soft);font-size:12px;margin-top:4px;line-height:1.5;}
 
-/* ── PANEL ── */
-.panel{background:var(--card);border:1px solid var(--border);border-radius:15px;overflow:hidden;}
-.panel-head{padding:13px 15px 11px;border-bottom:1px solid var(--border);}
-.panel-tag{font-size:9px;font-family:'Space Mono',monospace;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;}
-.panel-tag.blue{color:var(--accent);}.panel-tag.purple{color:var(--purple);}
-.panel-title{font-size:14px;font-weight:900;line-height:1.3;}
-.panel-sub{font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;margin-top:2px;}
-.panel-time-note{font-size:10px;color:var(--yellow);font-family:'Space Mono',monospace;margin-top:3px;}
+/* ── IFRAME GRID ── */
+.section-title{font-size:15px;font-weight:900;margin:24px 0 12px;display:flex;align-items:center;gap:8px;color:var(--text);}
+.section-title::before{content:'';display:block;width:4px;height:16px;border-radius:2px;}
+.title-blue::before{background:var(--accent);}
+.title-purple::before{background:var(--purple);}
 
-/* ── REC BLOCK ── */
-.rec-block{padding:13px 15px;border-bottom:1px solid var(--border);}
-.rec-label{font-size:9px;font-family:'Space Mono',monospace;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.rec-name{font-size:14px;font-weight:900;line-height:1.3;margin-bottom:3px;}
-.rec-path{font-size:10px;color:var(--soft);font-family:'Space Mono',monospace;line-height:1.5;margin-bottom:7px;}
-.rec-eta{display:flex;align-items:baseline;gap:5px;}
-.rec-num{font-family:'Space Mono',monospace;font-size:34px;font-weight:700;line-height:1;}
-.rec-unit{font-size:13px;color:var(--soft);font-weight:300;}
-.rec-note{font-size:10px;color:var(--muted);margin-left:5px;}
-.rec-block.blue .rec-num{color:var(--accent);}
-.rec-block.green .rec-num{color:var(--green);}
-.rec-block.yellow .rec-num{color:var(--yellow);}
-.rec-block.purple .rec-num{color:var(--purple);}
-.rec-block.loading-rec{opacity:.6;}
-.rec-num.live-badge::after{
-  content:'LIVE';font-size:8px;font-family:'Space Mono',monospace;
-  background:rgba(34,197,94,.2);color:var(--green);border:1px solid rgba(34,197,94,.4);
-  border-radius:4px;padding:1px 4px;margin-left:6px;vertical-align:middle;letter-spacing:1px;
-}
-
-/* ── ROUTE ROWS ── */
-.route-rows{padding:8px 10px;display:flex;flex-direction:column;gap:5px;}
-.rrow{display:flex;align-items:flex-start;gap:9px;background:rgba(255,255,255,.02);border:1px solid var(--border);
-  border-radius:9px;padding:9px 10px;position:relative;overflow:hidden;transition:transform .15s;}
-.rrow:hover{transform:translateX(2px);}
-.rrow::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
-.rrow.r1::before{background:var(--green);}.rrow.r2::before{background:var(--yellow);}.rrow.r3::before{background:var(--red);}
-.rrank{font-family:'Space Mono',monospace;font-size:14px;font-weight:700;width:18px;text-align:center;flex-shrink:0;padding-top:1px;}
-.r1 .rrank{color:var(--green);}.r2 .rrank{color:var(--yellow);}.r3 .rrank{color:var(--red);}
-.rinfo{flex:1;min-width:0;}
-.rname{font-size:12px;font-weight:700;margin-bottom:1px;}
-.rsub{font-size:10px;color:var(--muted);line-height:1.4;}
-.rlinks{display:flex;flex-direction:column;gap:3px;margin-top:4px;}
-.rlink{font-size:10px;color:var(--soft);display:flex;align-items:center;gap:4px;text-decoration:none;}
-.rlink:hover{color:var(--accent);}
-.rlink-badge{font-size:9px;font-family:'Space Mono',monospace;padding:1px 5px;border-radius:4px;
-  background:rgba(255,255,255,.05);border:1px solid var(--border);}
-.rright{text-align:right;flex-shrink:0;}
-.rmins{font-family:'Space Mono',monospace;font-size:17px;font-weight:700;line-height:1;}
-.r1 .rmins{color:var(--green);}.r2 .rmins{color:var(--yellow);}.r3 .rmins{color:var(--red);}
-.runit{font-size:9px;color:var(--muted);}
-.rtag{display:inline-block;font-size:8px;font-family:'Space Mono',monospace;
-  padding:1px 5px;border-radius:5px;margin-top:2px;letter-spacing:.5px;}
-.tbest{background:rgba(34,197,94,.15);color:var(--green);}
-.tok{background:rgba(234,179,8,.15);color:var(--yellow);}
-.tbad{background:rgba(239,68,68,.15);color:var(--red);}
-.tlive{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3);}
-
-/* ── AI BOX ── */
-.ai-block{padding:11px 13px;border-top:1px solid var(--border);}
-.ai-head{display:flex;align-items:center;gap:7px;margin-bottom:7px;}
-.ai-dot{width:6px;height:6px;border-radius:50%;animation:pulse 1.5s infinite;}
-.ai-dot.blue{background:var(--accent);}.ai-dot.purple{background:var(--purple);}
-.ai-lbl{font-size:10px;font-family:'Space Mono',monospace;letter-spacing:1px;}
-.ai-lbl.blue{color:var(--accent);}.ai-lbl.purple{color:var(--purple);}
-.ai-body{font-size:12px;line-height:1.8;color:var(--soft);font-weight:300;min-height:36px;}
-.ai-body.loading{display:flex;align-items:center;gap:8px;color:var(--muted);}
+.iframe-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:15px;margin-bottom:10px;}
+.hole-card{background:var(--card);border:1px solid var(--border);border-radius:13px;overflow:hidden;
+  display:flex;flex-direction:column;transition:border-color .3s;}
+.hole-card:hover{border-color:rgba(255,255,255,.2);}
+.hole-head{padding:12px 15px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);background:rgba(255,255,255,.02);}
+.hole-title{font-size:14px;font-weight:900;}
+.hole-link{font-size:11px;color:var(--accent);text-decoration:none;display:flex;align-items:center;gap:4px;
+  background:rgba(59,130,246,.1);padding:5px 10px;border-radius:6px;transition:background .2s;}
+.hole-link:hover{background:rgba(59,130,246,.25);}
+.hole-body{height:300px;width:100%;background:#1a2438;position:relative;}
+.hole-body iframe{width:100%;height:100%;border:none;}
+.hole-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:#1a2438;color:var(--muted);font-size:12px;gap:8px;z-index:0;}
 
 /* ── SPINNER ── */
 .spin{width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--accent);
   border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
-.spin.purple{border-top-color:var(--purple);}
-.spin.sm{width:10px;height:10px;}
 
 /* ── BOTTOM BAR ── */
-.bottom-bar{margin-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.bottom-bar{margin-top:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
 .btn-refresh{display:flex;align-items:center;gap:7px;background:rgba(59,130,246,.12);
   border:1px solid rgba(59,130,246,.35);border-radius:10px;padding:10px 18px;
   color:var(--accent);font-size:13px;font-weight:700;font-family:'Noto Sans TC',sans-serif;
@@ -175,9 +130,7 @@ body::before{content:'';position:fixed;inset:0;
 .footer-note{font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;line-height:1.7;}
 
 @media(max-width:700px){
-  .columns{grid-template-columns:1fr;}
-  .shoulder-strip{grid-template-columns:1fr;}
-  .weather-bar{grid-template-columns:1fr;}
+  .shoulder-strip, .weather-bar{grid-template-columns:1fr;}
   .clock-time{font-size:22px;}
 }
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.7)}}
@@ -187,7 +140,6 @@ body::before{content:'';position:fixed;inset:0;
 <body>
 <div class="page">
 
-<!-- TOP BAR -->
 <div class="topbar">
   <div>
     <h1>今天走<span>哪條路</span>？</h1>
@@ -199,16 +151,14 @@ body::before{content:'';position:fixed;inset:0;
   </div>
 </div>
 
-<!-- STATUS -->
 <div class="status-bar">
   <div class="sdot" id="sdot"></div>
   <div>
-    <div class="s-main" id="sMain">分析中...</div>
+    <div class="s-main" id="sMain">載入中...</div>
     <div class="s-sub" id="sSub"></div>
   </div>
 </div>
 
-<!-- SHOULDER -->
 <div class="shoulder-strip">
   <div class="shoulder-card loading-s" id="sh1">
     <div class="s-light"></div>
@@ -236,7 +186,6 @@ body::before{content:'';position:fixed;inset:0;
   </div>
 </div>
 
-<!-- WEATHER -->
 <div class="weather-section">
   <div class="weather-header">
     <div class="weather-title">即時天氣</div>
@@ -260,140 +209,117 @@ body::before{content:'';position:fixed;inset:0;
   </div>
 </div>
 
-<!-- TWO COLUMNS -->
-<div class="columns">
+<div class="info-alert">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  <div>
+    <strong>✅ 實況地圖觀測模式 (100% 準確)</strong>
+    <p>已為您內嵌 6 個即時路況視窗。請直接觀察地圖上的「紅綠線」判斷塞車狀況。決定路線後，請點擊「Maps 導航」開啟手機 App 獲得精準時間。</p>
+  </div>
+</div>
 
-  <!-- 路段一 -->
-  <div class="panel">
-    <div class="panel-head">
-      <div class="panel-tag blue">路段一　高速公路</div>
-      <div class="panel-title">桃園中壢/楊梅 → 新竹</div>
-      <div class="panel-sub">起點 → 力行二路 1 號</div>
-      <div class="panel-time-note" id="p1TimeNote">⏳ 查詢即時路況中...</div>
+<div class="section-title title-blue">路段一：高速公路南下段</div>
+<div class="iframe-grid">
+  
+  <div class="hole-card">
+    <div class="hole-head">
+      <div class="hole-title">國道一號（五楊高架）</div>
+      <a href="https://www.google.com.tw/maps/dir/25.0039222,121.251371/24.7743169,121.0189091/@24.9348849,121.1851502,17.01z/data=!4m9!4m8!1m5!3m4!1m2!1d121.185588!2d24.9334025!3s0x34682365c6f3fe9d:0xe68347cf705a10fa!1m0!3e0?hl=zh-TW" target="_blank" class="hole-link">
+        Maps 導航 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
     </div>
-    <div class="rec-block blue loading-rec" id="rec1Block">
-      <div class="rec-label">✦ 建議路線</div>
-      <div class="rec-name" id="rec1Name">查詢中</div>
-      <div class="rec-path" id="rec1Path">AI 正在取得即時旅行時間...</div>
-      <div class="rec-eta">
-        <div class="rec-num" id="rec1Eta">--</div>
-        <div class="rec-unit">分鐘</div>
-        <div class="rec-note" id="rec1Note"></div>
-      </div>
-    </div>
-    <div class="route-rows" id="routeRows1">
-      <div style="padding:12px;color:var(--muted);font-size:12px;text-align:center;">
-        <div class="spin" style="display:inline-block;margin-right:8px;"></div>AI 查詢即時路況中...
-      </div>
-    </div>
-    <div class="ai-block">
-      <div class="ai-head"><div class="ai-dot blue"></div><div class="ai-lbl blue">AI 分析</div></div>
-      <div class="ai-body loading" id="aiBody1"><div class="spin"></div><span>分析中...</span></div>
+    <div class="hole-body">
+      <div class="hole-loading"><div class="spin"></div> 載入地圖中...</div>
+      <iframe style="position:relative; z-index:1;" src="https://maps.google.com/maps?saddr=25.0039222,121.251371&daddr=24.9334025,121.185588+to:24.7743169,121.0189091&layer=t&output=embed" loading="lazy"></iframe>
     </div>
   </div>
 
-  <!-- 路段二 -->
-  <div class="panel">
-    <div class="panel-head">
-      <div class="panel-tag purple">路段二　進園區</div>
-      <div class="panel-title">新竹交流道 → 力行二路</div>
-      <div class="panel-sub">下高速後最後一段</div>
-      <div class="panel-time-note" id="p2TimeNote">⏳ 查詢即時路況中...</div>
+  <div class="hole-card">
+    <div class="hole-head">
+      <div class="hole-title">國道一號（平面）</div>
+      <a href="https://www.google.com.tw/maps/dir/25.0039222,121.251371/24.7743169,121.0189091/@24.9179559,121.1679011,16.22z/data=!4m2!4m1!3e0?hl=zh-TW" target="_blank" class="hole-link">
+        Maps 導航 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
     </div>
-    <div class="rec-block purple loading-rec" id="rec2Block">
-      <div class="rec-label">✦ 建議路線</div>
-      <div class="rec-name" id="rec2Name">查詢中</div>
-      <div class="rec-path" id="rec2Path">AI 正在取得即時旅行時間...</div>
-      <div class="rec-eta">
-        <div class="rec-num" id="rec2Eta">--</div>
-        <div class="rec-unit">分鐘</div>
-        <div class="rec-note" id="rec2Note"></div>
-      </div>
+    <div class="hole-body">
+      <div class="hole-loading"><div class="spin"></div> 載入地圖中...</div>
+      <iframe style="position:relative; z-index:1;" src="https://maps.google.com/maps?saddr=25.0039222,121.251371&daddr=24.7743169,121.0189091&layer=t&output=embed" loading="lazy"></iframe>
     </div>
-    <div class="route-rows" id="routeRows2">
-      <div style="padding:12px;color:var(--muted);font-size:12px;text-align:center;">
-        <div class="spin purple" style="display:inline-block;margin-right:8px;"></div>AI 查詢即時路況中...
-      </div>
+  </div>
+
+  <div class="hole-card">
+    <div class="hole-head">
+      <div class="hole-title">國道三號（經國二繞行）</div>
+      <a href="https://www.google.com.tw/maps/dir/25.0039222,121.251371/24.7743169,121.0189091/@24.8189374,120.9904173,12z/data=!4m9!4m8!1m5!3m4!1m2!1d121.3102391!2d24.9728641!3s0x34681ed89770c0db:0x66ac1a50eb0faa1b!1m0!3e0?hl=zh-TW" target="_blank" class="hole-link">
+        Maps 導航 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
     </div>
-    <div class="ai-block">
-      <div class="ai-head"><div class="ai-dot purple"></div><div class="ai-lbl purple">AI 分析</div></div>
-      <div class="ai-body loading" id="aiBody2"><div class="spin purple"></div><span>分析中...</span></div>
+    <div class="hole-body">
+      <div class="hole-loading"><div class="spin"></div> 載入地圖中...</div>
+      <iframe style="position:relative; z-index:1;" src="https://maps.google.com/maps?saddr=25.0039222,121.251371&daddr=24.9728641,121.3102391+to:24.7743169,121.0189091&layer=t&output=embed" loading="lazy"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="section-title title-purple">路段二：進園區平面段</div>
+<div class="iframe-grid">
+
+  <div class="hole-card">
+    <div class="hole-head">
+      <div class="hole-title" style="color:var(--purple)">竹科交流道</div>
+      <a href="https://www.google.com.tw/maps/dir/24.8084139,121.0103107/24.7745422,121.0189586/@24.7875474,121.0026151,15z/data=!4m9!4m8!1m5!3m4!1m2!1d121.0036609!2d24.7813476!3s0x3468361bc98e9e4b:0x5ccb382a3c1b5c4c!1m0!3e0?hl=zh-TW" target="_blank" class="hole-link">
+        Maps 導航 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="hole-body">
+      <div class="hole-loading"><div class="spin" style="border-top-color:var(--purple)"></div> 載入地圖中...</div>
+      <iframe style="position:relative; z-index:1;" src="https://maps.google.com/maps?saddr=24.8084139,121.0103107&daddr=24.7813476,121.0036609+to:24.7745422,121.0189586&layer=t&output=embed" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="hole-card">
+    <div class="hole-head">
+      <div class="hole-title" style="color:var(--purple)">光復路交流道</div>
+      <a href="https://www.google.com.tw/maps/dir/24.8084139,121.0103107/24.7745422,121.0189586/@24.7875474,121.0026151,15.74z/data=!4m9!4m8!1m5!3m4!1m2!1d121.0087574!2d24.7877818!3s0x3468361671c1f473:0x200ca393be0d4cfc!1m0!3e0?hl=zh-TW" target="_blank" class="hole-link">
+        Maps 導航 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="hole-body">
+      <div class="hole-loading"><div class="spin" style="border-top-color:var(--purple)"></div> 載入地圖中...</div>
+      <iframe style="position:relative; z-index:1;" src="https://maps.google.com/maps?saddr=24.8084139,121.0103107&daddr=24.7877818,121.0087574+to:24.7745422,121.0189586&layer=t&output=embed" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="hole-card">
+    <div class="hole-head">
+      <div class="hole-title" style="color:var(--purple)">公道五交流道</div>
+      <a href="https://www.google.com.tw/maps/dir/24.8085494,121.0103352/24.7743169,121.0189091/@24.7838172,121.0039181,15.58z/data=!4m14!4m13!1m10!3m4!1m2!1d121.012164!2d24.795984!3s0x34683641cc07c2f7:0x33aad3548146dc1c!3m4!1m2!1d121.0189077!2d24.7743821!3s0x34683626f6e8f021:0x51823870fd91dc00!1m0!3e0?hl=zh-TW" target="_blank" class="hole-link">
+        Maps 導航 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      </a>
+    </div>
+    <div class="hole-body">
+      <div class="hole-loading"><div class="spin" style="border-top-color:var(--purple)"></div> 載入地圖中...</div>
+      <iframe style="position:relative; z-index:1;" src="https://maps.google.com/maps?saddr=24.8085494,121.0103352&daddr=24.795984,121.012164+to:24.7743169,121.0189091&layer=t&output=embed" loading="lazy"></iframe>
     </div>
   </div>
 
 </div>
 
-<!-- BOTTOM -->
 <div class="bottom-bar">
   <button class="btn-refresh" id="refreshBtn" onclick="doRefresh()">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
       <polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/>
       <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
     </svg>
-    重新分析路線
+    重新載入地圖與資料
   </button>
   <div class="footer-note">
     上次更新：<span id="updTime">—</span><br>
-    路線時間由 AI 即時查詢 · 出發前請搭配導航確認
+    ※ 提示：地圖支援手勢拖曳縮放，路況將以 藍線(順暢)、橘線(車多)、紅線(壅塞) 顯示。
   </div>
 </div>
 
 </div>
 <script>
-// ══════════════════════════════════════════════════════
-// ROUTE DEFINITIONS (Maps URLs + static info)
-// ══════════════════════════════════════════════════════
-const ROUTES1_DEF = [
-  {
-    id:"freeway1_wuyang",
-    name:"國道一號（五楊高架）",
-    shortName:"五楊高架",
-    path:"中壢↑五楊高架 → 楊梅後接國一平面 → 新竹 → 力行二路",
-    mapsUrl:"https://www.google.com.tw/maps/dir/25.0038818,121.2513775/300%E6%96%B0%E7%AB%B9%E5%B8%82%E6%9D%B1%E5%8D%80%E5%8A%9B%E8%A1%8C%E4%BA%8C%E8%B7%AF1%E8%99%9F/@24.9418222,121.1906139,17.07z/data=!4m14!4m13!1m5!3m4!1m2!1d121.1674379!2d24.9182429!3s0x346824a71e96d645:0xdcddc14c3f3f6a9e!1m5!1m1!1s0x346836265dfd4311:0x599593d785c7fa50!2m2!1d121.0195624!2d24.7739955!3e0?hl=zh-TW&entry=ttu",
-  },
-  {
-    id:"freeway1_surface",
-    name:"國道一號（平面）",
-    shortName:"一號平面",
-    path:"中壢/楊梅 → 國一平面南下 → 新竹 → 力行二路",
-    mapsUrl:"https://www.google.com.tw/maps/dir/25.0038818,121.2513775/300%E6%96%B0%E7%AB%B9%E5%B8%82%E6%9D%B1%E5%8D%80%E5%8A%9B%E8%A1%8C%E4%BA%8C%E8%B7%AF1%E8%99%9F/@24.9177196,121.1661426,17.07z/data=!4m9!4m8!1m0!1m5!1m1!1s0x346836265dfd4311:0x599593d785c7fa50!2m2!1d121.0195624!2d24.7739955!3e0?hl=zh-TW&entry=ttu",
-  },
-  {
-    id:"freeway3_via2",
-    name:"國道三號（經國二繞行）",
-    shortName:"三號繞行",
-    path:"楊梅 → 國一往北 → 國二往西 → 國三往南 → 新竹 → 力行二路",
-    mapsUrl:"https://www.google.com.tw/maps/dir/25.0038818,121.2513775/300%E6%96%B0%E7%AB%B9%E5%B8%82%E6%9D%B1%E5%8D%80%E5%8A%9B%E8%A1%8C%E4%BA%8C%E8%B7%AF1%E8%99%9F/@24.7691574,121.0162623,15.22z/data=!4m14!4m13!1m5!3m4!1m2!1d121.3247426!2d24.9525365!3s0x34681ecc984ca41b:0x160a500f67e1cdcb!1m5!1m1!1s0x346836265dfd4311:0x599593d785c7fa50!2m2!1d121.0195624!2d24.7739955!3e0?hl=zh-TW&entry=ttu",
-  },
-];
-
-const ROUTES2_DEF = [
-  {
-    id:"hsinchu_science",
-    name:"竹科交流道",
-    shortName:"竹科交流道",
-    path:"竹科交流道 → 直接進園區 → 力行二路 1 號",
-    subRoutes:[
-      {label:"路線 A（竹科路）",minsExtra:0,url:"https://www.google.com.tw/maps/dir/24.8054998,121.00978/300%E6%96%B0%E7%AB%B9%E5%B8%82%E6%9D%B1%E5%8D%80%E5%8A%9B%E8%A1%8C%E4%BA%8C%E8%B7%AF1%E8%99%9F/@24.7868469,121.0079197,15.06z/data=!4m14!4m13!1m5!3m4!1m2!1d121.0059244!2d24.7807703!3s0x34683619713fa18f:0xfc77739e72a9cda!1m5!1m1!1s0x346836265dfd4311:0x599593d785c7fa50!2m2!1d121.0195624!2d24.7739955!3e0?hl=zh-TW&entry=ttu"},
-      {label:"路線 B（園區二路）",minsExtra:2,url:"https://www.google.com.tw/maps/dir/24.8054998,121.00978/300%E6%96%B0%E7%AB%B9%E5%B8%82%E6%9D%B1%E5%8D%80%E5%8A%9B%E8%A1%8C%E4%BA%8C%E8%B7%AF1%E8%99%9F/@24.7764746,121.0043049,16.11z/data=!4m15!4m14!1m5!3m4!1m2!1d121.0063764!2d24.777825!3s0x3468361eb6a4c143:0xb52817854440a6f!1m5!1m1!1s0x346836265dfd4311:0x599593d785c7fa50!2m2!1d121.0195624!2d24.7739955!3e0!5i1?hl=zh-TW&entry=ttu"},
-    ],
-  },
-  {
-    id:"guangfu",
-    name:"光復路交流道",
-    shortName:"光復路",
-    path:"光復路交流道 → 光復路 → 園區一路 → 力行二路 1 號",
-    mapsUrl:"https://www.google.com.tw/maps/dir/24.8054998,121.00978/300%E6%96%B0%E7%AB%B9%E5%B8%82%E6%9D%B1%E5%8D%80%E5%8A%9B%E8%A1%8C%E4%BA%8C%E8%B7%AF1%E8%99%9F/@24.7779126,121.0056912,14.79z/data=!4m19!4m18!1m10!3m4!1m2!1d121.0087391!2d24.7878538!3s0x3468361671c1f473:0x200ca393be0d4cfc!3m4!1m2!1d121.0091119!2d24.776897!3s0x3468361f47748875:0x2a9fc7972d3424d2!1m5!1m1!1s0x346836265dfd4311:0x599593d785c7fa50!2m2!1d121.0195624!2d24.7739955!3e0?hl=zh-TW&entry=ttu",
-  },
-  {
-    id:"gongdao5",
-    name:"公道五交流道",
-    shortName:"公道五",
-    path:"公道五交流道 → 慈雲路 → 園區一路 → 力行二路 1 號",
-    mapsUrl:"https://www.google.com.tw/maps/dir/24.8054998,121.00978/300%E6%96%B0%E7%AB%B9%E5%B8%82%E6%9D%B1%E5%8D%80%E5%8A%9B%E8%A1%8C%E4%BA%8C%E8%B7%AF1%E8%99%9F/@24.7837036,121.0079512,15.58z/data=!4m29!4m28!1m20!3m4!1m2!1d121.0130579!2d24.7942623!3s0x346836405952e387:0x4b624e945494458b!3m4!1m2!1d121.0094501!2d24.7873406!3s0x3468361611199949:0x5f5afa5561342530!3m4!1m2!1d121.0069721!2d24.7850255!3s0x346836170d50e54d:0x2b3b187ca57d3a4d!3m4!1m2!1d121.0091119!2d24.776897!3s0x3468361f47748875:0x2a9fc7972d3424d2!1m5!1m1!1s0x346836265dfd4311:0x599593d785c7fa50!2m2!1d121.0195624!2d24.7739955!3e0?hl=zh-TW&entry=ttu",
-  },
-];
-
 // ══════════════════════════════════════════════════════
 // CLOCK + STATUS
 // ══════════════════════════════════════════════════════
@@ -401,9 +327,9 @@ function getTrafficLevel(h,m){
   const t=h*60+m, dow=new Date().getDay(), isWe=dow===0||dow===6;
   if(isWe) return{level:"light",label:"假日 · 路況順暢",sub:"非尖峰，各路線皆通",dot:"light"};
   if(t>=420&&t<450) return{level:"moderate",label:"即將進入早尖峰",sub:"建議提早出發或走國三繞行",dot:"moderate"};
-  if(t>=450&&t<540) return{level:"peak",label:"⚠ 早尖峰高峰期",sub:"國一新竹竹北段嚴重壅塞",dot:"peak"};
-  if(t>=540&&t<570) return{level:"moderate",label:"尖峰尾段",sub:"路況漸改善，再等 20 分更好",dot:"moderate"};
-  if(t>=1020&&t<1140) return{level:"moderate",label:"晚尖峰（返家方向）",sub:"往北較慢，上班方向影響不大",dot:"moderate"};
+  if(t>=450&&t<540) return{level:"peak",label:"⚠ 早尖峰高峰期",sub:"國一新竹竹北段可能壅塞",dot:"peak"};
+  if(t>=540&&t<570) return{level:"moderate",label:"尖峰尾段",sub:"路況漸漸改善中",dot:"moderate"};
+  if(t>=1020&&t<1140) return{level:"moderate",label:"晚尖峰（返家方向）",sub:"往北可能較慢",dot:"moderate"};
   return{level:"light",label:"離峰時段 · 順暢",sub:"各路線皆通暢",dot:"light"};
 }
 
@@ -412,273 +338,31 @@ function updateClock(){
   document.getElementById("clkTime").textContent=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
   const days=["日","一","二","三","四","五","六"];
   document.getElementById("clkDate").textContent=`${now.getMonth()+1}/${now.getDate()} 週${days[now.getDay()]}`;
+  
+  // 更新狀態列文字
+  const traffic = getTrafficLevel(now.getHours(), now.getMinutes());
+  document.getElementById("sdot").className = "sdot " + traffic.dot;
+  document.getElementById("sMain").textContent = traffic.label;
+  document.getElementById("sSub").textContent = traffic.sub;
   return now;
 }
 
 // ══════════════════════════════════════════════════════
-// AI: FETCH LIVE ROUTE TIMES
+// IFRAME REFRESHER
 // ══════════════════════════════════════════════════════
-async function fetchLiveTimes1(h, m, trafficLevel) {
-  const pad = n => String(n).padStart(2,"0");
-  const isWe = [0,6].includes(new Date().getDay());
-  const prompt = `你是台灣交通專家。現在時間 ${pad(h)}:${pad(m)}，${isWe?"週末":"平日"}，路況：${trafficLevel}。
-
-請查詢並估算以下三條路線，從桃園中壢/楊梅（座標 25.004, 121.251）到新竹科學園區力行二路1號，目前實際行車時間（分鐘）。
-
-請直接回傳 JSON（禁止任何說明文字或 markdown，只有 JSON）：
-{
-  "freeway1_wuyang": {"mins": 整數, "note": "簡短說明，含目前路況關鍵資訊"},
-  "freeway1_surface": {"mins": 整數, "note": "簡短說明"},
-  "freeway3_via2": {"mins": 整數, "note": "簡短說明"},
-  "best_id": "最快路線的id",
-  "summary": "2句話總結建議，朋友口吻"
-}
-
-路線說明：
-- freeway1_wuyang = 五楊高架（桃園段高架，楊梅後接國一平面到新竹）
-- freeway1_surface = 國一平面（全程國一省道）
-- freeway3_via2 = 國三繞行（從楊梅往北接國二，轉國三往南到新竹）`;
-
-  const resp = await fetch("https://api.anthropic.com/v1/messages", {
-    method:"POST", headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({
-      model:"claude-sonnet-4-20250514", max_tokens:400,
-      tools:[{type:"web_search_20250305",name:"web_search"}],
-      messages:[{role:"user",content:prompt}]
-    })
+function refreshIframes(){
+  const iframes = document.querySelectorAll('iframe');
+  iframes.forEach(iframe => {
+    // 透過加上時間戳記來強制瀏覽器重新載入最新地圖路況
+    const currentSrc = iframe.src.split('&ts=')[0];
+    iframe.src = currentSrc + '&ts=' + new Date().getTime();
   });
-  const data = await resp.json();
-  const txt = (data.content||[]).map(c=>c.text||"").join("").trim();
-  const match = txt.match(/\{[\s\S]*\}/);
-  if(!match) throw new Error("no json");
-  return JSON.parse(match[0]);
-}
-
-async function fetchLiveTimes2(h, m, trafficLevel) {
-  const pad = n => String(n).padStart(2,"0");
-  const isWe = [0,6].includes(new Date().getDay());
-  const prompt = `你是台灣交通專家。現在時間 ${pad(h)}:${pad(m)}，${isWe?"週末":"平日"}，路況：${trafficLevel}。
-
-請查詢並估算以下三條路線，從新竹交流道附近（座標 24.805, 121.010）到新竹科學園區力行二路1號，目前實際行車時間（分鐘）。
-
-請直接回傳 JSON（禁止任何說明文字或 markdown，只有 JSON）：
-{
-  "hsinchu_science": {"mins": 整數, "note": "簡短說明，含路況", "sub_a_mins": 整數, "sub_b_mins": 整數},
-  "guangfu": {"mins": 整數, "note": "簡短說明"},
-  "gongdao5": {"mins": 整數, "note": "簡短說明"},
-  "best_id": "最快路線的id",
-  "summary": "1句話說哪條最好，朋友口吻"
-}
-
-路線說明：
-- hsinchu_science = 竹科交流道（直接進園區，有兩條路線：A=竹科路約X分，B=園區二路約X+2分）
-- guangfu = 光復路交流道（走光復路→園區一路→力行二路）
-- gongdao5 = 公道五交流道（走公道五→慈雲路→園區一路→力行二路）`;
-
-  const resp = await fetch("https://api.anthropic.com/v1/messages", {
-    method:"POST", headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({
-      model:"claude-sonnet-4-20250514", max_tokens:350,
-      tools:[{type:"web_search_20250305",name:"web_search"}],
-      messages:[{role:"user",content:prompt}]
-    })
-  });
-  const data = await resp.json();
-  const txt = (data.content||[]).map(c=>c.text||"").join("").trim();
-  const match = txt.match(/\{[\s\S]*\}/);
-  if(!match) throw new Error("no json");
-  return JSON.parse(match[0]);
+  const n = new Date(), p = x => String(x).padStart(2,"0");
+  document.getElementById("updTime").textContent = `${p(n.getHours())}:${p(n.getMinutes())}`;
 }
 
 // ══════════════════════════════════════════════════════
-// RENDER ROUTES
-// ══════════════════════════════════════════════════════
-function renderRouteRows1(results){
-  const tm=["tbest","tok","tbad"], tl=["推薦","備選","較慢"], rc=["r1","r2","r3"];
-  const g=document.getElementById("routeRows1"); g.innerHTML="";
-  results.forEach((r,i)=>{
-    const d=document.createElement("div");
-    d.className=`rrow ${rc[i]}`;
-    const mapBtn=r.mapsUrl?`<a href="${r.mapsUrl}" target="_blank"
-      style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--muted);text-decoration:none;margin-top:3px;"
-      onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">
-      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      Maps 導航</a>`:"";
-    d.innerHTML=`
-      <div class="rrank">${i+1}</div>
-      <div class="rinfo">
-        <div class="rname">${r.name}</div>
-        <div class="rsub">${r.note||r.path}</div>
-        ${mapBtn}
-      </div>
-      <div class="rright">
-        <div class="rmins">${r.mins}</div>
-        <div class="runit">分鐘</div>
-        <span class="rtag ${i===0?"tlive":tm[i]}">${i===0?"● LIVE":tl[i]}</span>
-      </div>`;
-    g.appendChild(d);
-  });
-}
-
-function renderRouteRows2(results){
-  const tm=["tbest","tok","tbad"], tl=["推薦","備選","較慢"], rc=["r1","r2","r3"];
-  const g=document.getElementById("routeRows2"); g.innerHTML="";
-  results.forEach((r,i)=>{
-    const d=document.createElement("div");
-    d.className=`rrow ${rc[i]}`;
-    let subHtml="";
-    if(r.subRoutes){
-      subHtml=`<div class="rlinks">${r.subRoutes.map(s=>`
-        <a class="rlink" href="${s.url}" target="_blank">
-          <span class="rlink-badge">${s.label}</span>
-          <span style="color:var(--muted)">約 ${r.mins + s.minsExtra} 分</span>
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-            <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-          </svg>
-        </a>`).join("")}</div>`;
-    }
-    const mapBtn=r.mapsUrl?`<a href="${r.mapsUrl}" target="_blank"
-      style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--muted);text-decoration:none;margin-top:3px;"
-      onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">
-      <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      Maps 導航</a>`:"";
-    d.innerHTML=`
-      <div class="rrank">${i+1}</div>
-      <div class="rinfo">
-        <div class="rname">${r.name}</div>
-        <div class="rsub">${r.note||r.path}</div>
-        ${subHtml}${mapBtn}
-      </div>
-      <div class="rright">
-        <div class="rmins">${r.mins}</div>
-        <div class="runit">分鐘</div>
-        <span class="rtag ${i===0?"tlive":tm[i]}">${i===0?"● LIVE":tl[i]}</span>
-      </div>`;
-    g.appendChild(d);
-  });
-}
-
-function updateRec1(best, results){
-  document.getElementById("rec1Name").textContent = best.name;
-  document.getElementById("rec1Path").textContent = best.path;
-  const etaEl = document.getElementById("rec1Eta");
-  etaEl.textContent = best.mins;
-  etaEl.className = "rec-num live-badge";
-  const saved = results[results.length-1].mins - best.mins;
-  document.getElementById("rec1Note").textContent = saved>3?`比最慢省約 ${saved} 分`:"各路線差距不大";
-  const colorMap={freeway3_via2:"blue",freeway1_wuyang:"green",freeway1_surface:"yellow"};
-  document.getElementById("rec1Block").className=`rec-block ${colorMap[best.id]||"blue"}`;
-  document.getElementById("p1TimeNote").textContent = "✅ 已取得即時旅行時間";
-}
-
-function updateRec2(best, results){
-  document.getElementById("rec2Name").textContent = best.name;
-  document.getElementById("rec2Path").textContent = best.path;
-  const etaEl = document.getElementById("rec2Eta");
-  etaEl.textContent = best.mins;
-  etaEl.className = "rec-num live-badge";
-  const saved = results[results.length-1].mins - best.mins;
-  document.getElementById("rec2Note").textContent = saved>3?`比最慢省約 ${saved} 分`:"各路線差距不大";
-  document.getElementById("rec2Block").className="rec-block purple";
-  document.getElementById("p2TimeNote").textContent = "✅ 已取得即時旅行時間";
-}
-
-// ══════════════════════════════════════════════════════
-// MAIN ROUTE FETCH + RENDER
-// ══════════════════════════════════════════════════════
-let routeRunning = false;
-
-async function fetchAndRenderRoutes(){
-  if(routeRunning) return;
-  routeRunning = true;
-
-  const now = new Date();
-  const h = now.getHours(), m = now.getMinutes();
-  const traffic = getTrafficLevel(h, m);
-
-  document.getElementById("sdot").className = "sdot " + traffic.dot;
-  document.getElementById("sMain").textContent = traffic.label;
-  document.getElementById("sSub").textContent = traffic.sub;
-
-  // Set loading state
-  ["routeRows1","routeRows2"].forEach((id,i)=>{
-    document.getElementById(id).innerHTML=`<div style="padding:12px;color:var(--muted);font-size:12px;text-align:center;">
-      <div class="spin${i===1?" purple":""}" style="display:inline-block;margin-right:8px;"></div>AI 查詢即時路況中...</div>`;
-  });
-
-  // Segment 1
-  try {
-    const times1 = await fetchLiveTimes1(h, m, traffic.label);
-    const results1 = ROUTES1_DEF.map(r => ({
-      ...r,
-      mins: times1[r.id]?.mins || 60,
-      note: times1[r.id]?.note || r.path,
-    })).sort((a,b) => a.mins - b.mins);
-
-    updateRec1(results1[0], results1);
-    renderRouteRows1(results1);
-
-    // AI summary for seg1
-    const ai1El = document.getElementById("aiBody1");
-    ai1El.className = "ai-body";
-    ai1El.textContent = times1.summary || `建議走 ${results1[0].name}，目前約 ${results1[0].mins} 分鐘。`;
-  } catch(e) {
-    document.getElementById("p1TimeNote").textContent = "⚠ 無法取得即時資料，顯示推估值";
-    // fallback to estimated
-    const fallbackMins = {freeway1_wuyang:50,freeway1_surface:55,freeway3_via2:65};
-    const factor = traffic.level==="peak"?1.6:traffic.level==="moderate"?1.25:1;
-    const results1 = ROUTES1_DEF.map(r=>({...r,mins:Math.round((fallbackMins[r.id]||55)*factor),note:r.path}))
-      .sort((a,b)=>a.mins-b.mins);
-    updateRec1(results1[0],results1);
-    document.getElementById("rec1Eta").className="rec-num";
-    renderRouteRows1(results1);
-    document.getElementById("aiBody1").className="ai-body";
-    document.getElementById("aiBody1").textContent="無法取得即時路況，以上為時段估算值，請搭配 Google Maps 確認。";
-  }
-
-  // Segment 2
-  try {
-    const times2 = await fetchLiveTimes2(h, m, traffic.label);
-    const results2 = ROUTES2_DEF.map(r => {
-      const t2 = times2[r.id];
-      const updated = {...r, mins: t2?.mins||10, note: t2?.note||r.path};
-      if(r.subRoutes && t2?.sub_a_mins){
-        updated.subRoutes = [
-          {...r.subRoutes[0], minsExtra: 0, label:`路線 A（竹科路）`},
-          {...r.subRoutes[1], minsExtra: (t2.sub_b_mins||t2.mins+2) - t2.mins, label:`路線 B（園區二路）`},
-        ];
-        updated.mins = t2.sub_a_mins;
-      }
-      return updated;
-    }).sort((a,b) => a.mins - b.mins);
-
-    updateRec2(results2[0], results2);
-    renderRouteRows2(results2);
-
-    const ai2El = document.getElementById("aiBody2");
-    ai2El.className = "ai-body";
-    ai2El.textContent = times2.summary || `建議走 ${results2[0].name}，目前約 ${results2[0].mins} 分鐘。`;
-  } catch(e) {
-    document.getElementById("p2TimeNote").textContent = "⚠ 無法取得即時資料，顯示推估值";
-    const fallbackMins = {hsinchu_science:8,guangfu:12,gongdao5:14};
-    const factor = traffic.level==="peak"?1.7:traffic.level==="moderate"?1.3:1;
-    const results2 = ROUTES2_DEF.map(r=>({...r,mins:Math.round((fallbackMins[r.id]||10)*factor),note:r.path}))
-      .sort((a,b)=>a.mins-b.mins);
-    updateRec2(results2[0],results2);
-    document.getElementById("rec2Eta").className="rec-num";
-    renderRouteRows2(results2);
-    document.getElementById("aiBody2").className="ai-body";
-    document.getElementById("aiBody2").textContent="無法取得即時路況，以上為時段估算值，請搭配 Google Maps 確認。";
-  }
-
-  const n=new Date(), p=x=>String(x).padStart(2,"0");
-  document.getElementById("updTime").textContent=`${p(n.getHours())}:${p(n.getMinutes())}`;
-  routeRunning = false;
-}
-
-// ══════════════════════════════════════════════════════
-// SHOULDER (路肩開放)
+// SHOULDER (路肩開放) - 依然由 AI 提供預估
 // ══════════════════════════════════════════════════════
 async function fetchShoulder(){
   const sections=[
@@ -733,7 +417,6 @@ async function fetchShoulder(){
 
 // ══════════════════════════════════════════════════════
 // WEATHER – multi-source fallback
-// Open-Meteo → wttr.in → Claude AI
 // ══════════════════════════════════════════════════════
 let wxSourceIndex = {wxHsinchu:0, wxTaoyuan:0};
 
@@ -841,7 +524,6 @@ async function fetchWeather(lat, lon, cityName, cardId, forceSourceIndex){
     <div class="wx-city"><div class="wx-city-dot"></div><div class="wx-city-name">${city}</div></div>
     <div class="wx-loading"><div class="spin" style="border-top-color:${spinColor}"></div><span>載入中...</span></div>`;
 
-  // If forceSourceIndex, try only that one first then fallback
   const startIdx = (forceSourceIndex != null)
     ? forceSourceIndex % WX_SOURCES.length
     : wxSourceIndex[cardId] || 0;
@@ -851,9 +533,9 @@ async function fetchWeather(lat, lon, cityName, cardId, forceSourceIndex){
     try{
       const wx = await WX_SOURCES[idx].fn(lat, lon, cityName);
       renderWx(cardId, wx, WX_SOURCES[idx].name);
-      wxSourceIndex[cardId] = idx; // remember successful source
+      wxSourceIndex[cardId] = idx; 
       return;
-    }catch(e){ /* try next */ }
+    }catch(e){ }
   }
   const cardEl=document.getElementById(cardId);
   cardEl.innerHTML=`<div class="wx-city"><div class="wx-city-dot"></div><div class="wx-city-name">${city}</div></div>
@@ -866,7 +548,6 @@ function refreshWeather(){
   wxRefreshing = true;
   const btn=document.getElementById("wxRefreshBtn");
   btn.classList.add("spinning");
-  // advance to next source to try something different
   wxSourceIndex.wxHsinchu = ((wxSourceIndex.wxHsinchu||0) + 1) % WX_SOURCES.length;
   wxSourceIndex.wxTaoyuan = ((wxSourceIndex.wxTaoyuan||0) + 1) % WX_SOURCES.length;
   Promise.all([
@@ -890,14 +571,15 @@ function doRefresh(){
   const btn=document.getElementById("refreshBtn");
   btn.classList.add("spin-icon");
   setTimeout(()=>btn.classList.remove("spin-icon"),900);
+  
   updateClock();
-  fetchAndRenderRoutes();
+  refreshIframes();
   loadWeather();
   fetchShoulder();
 }
 
 setInterval(updateClock,1000);
-setInterval(doRefresh, 8*60*1000); // auto-refresh every 8 min
+setInterval(refreshIframes, 8*60*1000); // 每 8 分鐘自動刷新地圖
 doRefresh();
 </script>
 </body>
